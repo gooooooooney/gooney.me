@@ -17,9 +17,9 @@ jobs:
           version: 7
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
-          with:
-            node-version: 16.x
-            cache: 'pnpm'
+        with:
+          node-version: 16.x
+          cache: 'pnpm'
       - run: pnpm install
       - run: pnpm run build --if-present
 
