@@ -1,62 +1,40 @@
 <script setup lang="ts">
-const user = useUserStore()
-const name = $ref(user.savedName)
-
+import { formatDate } from '~/utils'
 const router = useRouter()
-const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
-}
+const routes = router.getRoutes()
+  .filter(v => v.name && v.path.startsWith('/posts'))
+const posts = computed(() => routes.map(i => ({
+  path: i.path,
+  title: i.meta.frontmatter.title,
+  date: i.meta.frontmatter.date,
+  lang: i.meta.frontmatter.lang,
+  duration: i.meta.frontmatter.duration,
+})))
 
-const { t } = useI18n()
+const getYear = (a: Date | string | number) => new Date(a).getFullYear()
+const isSameYear = (a: Date | string | number, b: Date | string | number) => a && b && getYear(a) === getYear(b)
 </script>
 
 <template>
   <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
-    </div>
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
-
-    <div py-4 />
-
-    <input
-      id="input"
-      v-model="name"
-      :placeholder="t('intro.whats-your-name')"
-      :aria-label="t('intro.whats-your-name')"
-      type="text"
-      autocomplete="false"
-      p="x4 y2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
-
-    <div>
-      <button
-        btn m-3 text-sm
-        :disabled="!name"
-        @click="go"
-      >
-        {{ t('button.go') }}
-      </button>
-    </div>
+    <template v-for="(post, idx) in posts" :key="post.path">
+      <div v-if="!isSameYear(post.date, posts[idx - 1]?.date)">
+        <h2>{{ getYear(post.date) }}</h2>
+      </div>
+      <app-link :to="post.path" class="mt-2 duration-300 transition-all ease-linear cursor-pointer text-[#666] dark:text-[#c9c6c6] hover:(decoration-none dark:text-white text-black) decoration-none">
+        <h6 m-0>
+          {{ post.title }}
+        </h6>
+        <p mt-0 text-sm>
+          <span>{{ formatDate(post.date) }}</span>
+          <span ml-2>{{ post.duration }}</span>
+        </p>
+      </app-link>
+    </template>
   </div>
 </template>
 
-<route lang="yaml">
+<!-- <route lang="yaml">
 meta:
   layout: home
-</route>
+</route> -->

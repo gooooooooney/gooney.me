@@ -1,3 +1,6 @@
+---
+title: readme
+---
 ## File-based Routing
 
 Routes will be auto-generated for Vue files in this dir with the same file structure.

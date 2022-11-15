@@ -1,6 +1,11 @@
+import 'vue-router'
+
 declare interface Window {
   // extend the window
 }
+
+
+
 
 // with vite-plugin-vue-markdown, markdown files can be treated as Vue components
 declare module '*.md' {
@@ -14,3 +19,10 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    frontmatter: any
+  }
+}
+

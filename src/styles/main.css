@@ -27,3 +27,43 @@ html.dark {
   width: 100%;
   height: 2px;
 }
+html {
+  overflow-y: scroll;
+}
+
+:root {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+:root body {
+  position: absolute;
+}
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+:focus { outline:0; }
+ul,ol,ul li,ol li { list-style: none; }/*重置列表*/
+address,caption,cite,em,code,dfn,th,var { font-style:normal;font-weight:normal; }
+form label { cursor:pointer; }
+input,button,select,textarea { font-family:inherit;font-size:100%;outline:none; }
+textarea { resize:none }
+input { vertical-align:middle; }
+img { border:0; }/*重置图片元素*/
+table { border-collapse:collapse;border-spacing: 0; }/*重置表格*/
+.l { float:left; }
+.r { float:right; }
+button,input[type="reset"],input[type="button"],input[type="submit"] { line-height:normal !important; }
+a { text-decoration:none;}
+a { color:#666;}
+a:hover { text-decoration:underline; }
+input { _filter:chroma(color=#000000); }
+
+body { scroll-behavior: smooth; }
+
+ol { counter-reset: list-item; }
+li { display: block; counter-increment: list-item; }
+li:before { content: counters(list-item,'.') ' '; }
+
